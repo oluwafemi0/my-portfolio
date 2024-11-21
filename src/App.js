@@ -5,34 +5,44 @@ import { faCode } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 import YourImage from "./images/me.jpg";
 import Pong from "./Pong";
+import './Pong.css'; 
 
 const darkColor = "#121212";
 
 function App() {
   const [showMainContent, setShowMainContent] = useState(false);
 
-  
-  const lampVariants = {
-    hidden: { y: -500 },
-    bounce: {
-      y: [0, -50, 0, -25, 0],
+  const sphereVariants = {
+    hidden: { scale: 0, opacity: 0 },
+    visible: {
+      scale: [1, 1.5, 1],
+      opacity: 1,
       transition: {
         duration: 2,
-        times: [0, 0.3, 0.6, 0.8, 1],
-        ease: "easeOut",
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut",
       },
     },
-    settle: { y: 0, scale: 1.2, rotate: -15, transition: { delay: 2 } },
   };
 
   const textVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { delay: 2.5, duration: 1 } },
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      textShadow: "0px 0px 8px #00FFF6, 0px 0px 16px #FF006E",
+      transition: {
+        delay: 2,
+        duration: 1.5,
+        ease: "easeInOut",
+      },
+    },
   };
 
   const fadeOutVariants = {
     visible: { opacity: 1 },
-    hidden: { opacity: 0, transition: { duration: 1 } },
+    hidden: { opacity: 0, transition: { duration: 1.5 } },
   };
 
   const containerVariants = {
@@ -74,23 +84,28 @@ function App() {
           onAnimationComplete={handleIntroEnd}
           variants={fadeOutVariants}
         >
-          
+          {/* Glowing Sphere */}
           <motion.div
-            className="w-24 h-24 bg-[#FF006E] rounded-full"
+            className="w-24 h-24 bg-gradient-to-r from-[#00FFF6] to-[#FF006E] rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)]"
             initial="hidden"
-            animate="bounce"
-            variants={lampVariants}
+            animate="visible"
+            variants={sphereVariants}
           />
 
-         
+          {/* Neon Text */}
           <motion.h1
-            className="text-4xl font-bold neon-text text-[#FF006E]"
+            className="text-4xl font-bold text-[#00FFF6] tracking-widest"
             variants={textVariants}
             initial="hidden"
             animate="visible"
           >
-            Oluwafemi's Portfolio
+            Welcome to the Future
           </motion.h1>
+
+          {/* Dynamic Starfield Background */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#000000] to-[#1E1E1E] overflow-hidden">
+            <div className="stars"></div>
+          </div>
         </motion.div>
       )}
 
@@ -101,18 +116,16 @@ function App() {
           animate="visible"
           variants={containerVariants}
         >
-          
+          {/* Main Content */}
           <motion.section className="h-full flex flex-col md:flex-row items-center relative z-10">
-            
             <motion.div className="w-full md:w-1/3 h-full relative overflow-hidden">
               <motion.img
                 src={YourImage}
-                alt="[Your Name]"
+                alt="Your Name"
                 className="w-full h-full object-cover object-center"
               />
             </motion.div>
 
-           
             <motion.div className="w-full md:w-2/3 flex flex-col p-6 space-y-12">
               <motion.div className="flex">
                 <motion.div className="flex flex-col w-2/3">
@@ -131,7 +144,6 @@ function App() {
                 </motion.div>
               </motion.div>
 
-              
               <motion.div className="flex justify-center md:justify-start space-x-6 mt-2">
                 <motion.a href="https://github.com/oluwafemi0?tab=repositories" target="_blank" rel="noopener noreferrer">
                   <FontAwesomeIcon
@@ -153,8 +165,6 @@ function App() {
                 </motion.a>
               </motion.div>
 
-
-              
               <motion.div className="mt-2 bg-[#1E1E1E] p-4 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-semibold mb-2 ">Skills</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -170,7 +180,7 @@ function App() {
                   ].map((skill) => (
                     <motion.div
                       key={skill}
-                      className="flex items-center bg-[#FF006E]  rounded-lg p-4 shadow-xl"
+                      className="flex items-center bg-[#FF006E] rounded-lg p-4 shadow-xl"
                       variants={skillVariants}
                       whileHover={{ scale: 1.05 }}
                     >
@@ -181,7 +191,6 @@ function App() {
                 </div>
               </motion.div>
 
-              
               <motion.div className="mt-4 bg-[#1E1E1E] p-4 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-semibold mb-2 ">Active Projects</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -225,7 +234,7 @@ function App() {
               </motion.div>
             </motion.div>
           </motion.section>
- 
+
           <footer className="absolute bottom-0 left-0 right-0 p-4 bg-[#1E1E1E] text-center text-gray-400 ">
             <p>© {new Date().getFullYear()} Oluwafemi Emmanuel Ayedogbon. All rights reserved.</p>
           </footer>
