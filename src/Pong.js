@@ -194,7 +194,7 @@ const Pong = () => {
       {gameOver && (
         <div className="game-over mt-2">
           <h2 className="font-bold ">Game Over!</h2>
-          <p className="font-bold text-yellow-400 ">Your Score: {playerScore}</p>
+          <p className="font-bold text-[#FF006E] ">Your Score: {playerScore}</p>
           <button className="neon-button " onClick={handleReplay}>
             Play Again
           </button>
