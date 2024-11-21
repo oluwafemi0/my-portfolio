@@ -5,33 +5,53 @@ import { faCode } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 import YourImage from "./images/me.jpg";
 import Pong from "./Pong";
-import './Pong.css'; 
 
 const darkColor = "#121212";
 
 function App() {
   const [showMainContent, setShowMainContent] = useState(false);
 
-  const sphereVariants = {
-    hidden: { scale: 0, opacity: 0 },
-    visible: {
-      scale: [1, 1.5, 1],
-      opacity: 1,
+  const lampVariants = {
+    hidden: { y: -500 },
+    bounce: {
+      y: [0, -50, 0, -25, 0],
       transition: {
         duration: 2,
+        times: [0, 0.3, 0.6, 0.8, 1],
+        ease: "easeOut",
+      },
+    },
+    settle: { y: 0, scale: 1.2, rotate: -15, transition: { delay: 2 } },
+  };
+
+  const sphereVariants = {
+    hidden: { scale: 0, opacity: 1 },  // Make it visible initially
+    visible: {
+      scale: [1, 4, 1],  // Pulsing effect
+      opacity: 1,  // Keep it fully visible
+      boxShadow: `
+        0px 0px 30px rgba(255, 0, 110, 1), 
+        0px 0px 60px rgba(255, 0, 110, 0.8),
+        0px 0px 120px rgba(255, 0, 110, 0.6),
+        0px 0px 200px rgba(255, 0, 110, 0.4)`,  // Glowing effect
+      transition: {
+        duration: 4,
         repeat: Infinity,
         repeatType: "reverse",
         ease: "easeInOut",
       },
     },
   };
+  
+  
+  
 
   const textVariants = {
     hidden: { opacity: 0, scale: 0.8 },
     visible: {
       opacity: 1,
       scale: 1,
-      textShadow: "0px 0px 8px #00FFF6, 0px 0px 16px #FF006E",
+      textShadow: "0px 0px 8px #FF006E, 0px 0px 16px #00FFF6",
       transition: {
         delay: 2,
         duration: 1.5,
@@ -86,7 +106,7 @@ function App() {
         >
           {/* Glowing Sphere */}
           <motion.div
-            className="w-24 h-24 bg-gradient-to-r from-[#00FFF6] to-[#FF006E] rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)]"
+            className="w-24 h-24 bg-gradient-to-r from-[#FF006E] to-[#00FFF6] rounded-full shadow-[0_0_15px_rgba(255,0,110,0.8)]"
             initial="hidden"
             animate="visible"
             variants={sphereVariants}
@@ -94,18 +114,13 @@ function App() {
 
           {/* Neon Text */}
           <motion.h1
-            className="text-4xl font-bold text-[#00FFF6] tracking-widest"
+            className="text-4xl font-bold text-[#FF006E] tracking-widest"
             variants={textVariants}
             initial="hidden"
             animate="visible"
           >
-            Welcome to the Future
+            Oluwafemi's Portfolio
           </motion.h1>
-
-          {/* Dynamic Starfield Background */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#000000] to-[#1E1E1E] overflow-hidden">
-            <div className="stars"></div>
-          </div>
         </motion.div>
       )}
 
@@ -116,12 +131,11 @@ function App() {
           animate="visible"
           variants={containerVariants}
         >
-          {/* Main Content */}
           <motion.section className="h-full flex flex-col md:flex-row items-center relative z-10">
             <motion.div className="w-full md:w-1/3 h-full relative overflow-hidden">
               <motion.img
                 src={YourImage}
-                alt="Your Name"
+                alt="[Your Name]"
                 className="w-full h-full object-cover object-center"
               />
             </motion.div>
@@ -166,7 +180,7 @@ function App() {
               </motion.div>
 
               <motion.div className="mt-2 bg-[#1E1E1E] p-4 rounded-lg shadow-lg">
-                <h2 className="text-2xl font-semibold mb-2 ">Skills</h2>
+                <h2 className="text-2xl font-semibold mb-2">Skills</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {[
                     "React Native",
@@ -184,7 +198,7 @@ function App() {
                       variants={skillVariants}
                       whileHover={{ scale: 1.05 }}
                     >
-                      <FontAwesomeIcon icon={faCode} className=" mr-3" />
+                      <FontAwesomeIcon icon={faCode} className="mr-3" />
                       <span className="text-lg">{skill}</span>
                     </motion.div>
                   ))}
@@ -192,7 +206,7 @@ function App() {
               </motion.div>
 
               <motion.div className="mt-4 bg-[#1E1E1E] p-4 rounded-lg shadow-lg">
-                <h2 className="text-2xl font-semibold mb-2 ">Active Projects</h2>
+                <h2 className="text-2xl font-semibold mb-2">Active Projects</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {[
                     {
@@ -224,9 +238,9 @@ function App() {
                         href={link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#E0E0E0] hover:underline"
+                        className="text-[#00FFF6] hover:underline"
                       >
-                        View Code on Github
+                        View Project
                       </a>
                     </motion.div>
                   ))}
@@ -234,7 +248,6 @@ function App() {
               </motion.div>
             </motion.div>
           </motion.section>
-
           <footer className="absolute bottom-0 left-0 right-0 p-4 bg-[#1E1E1E] text-center text-gray-400 ">
             <p>© {new Date().getFullYear()} Oluwafemi Emmanuel Ayedogbon. All rights reserved.</p>
           </footer>
